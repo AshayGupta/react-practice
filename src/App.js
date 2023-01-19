@@ -21,8 +21,10 @@ class App extends React.Component {
     this.setState({ tableData: [addData, ...this.state.tableData] });
   };
 
-  updateTableData = (data) => {
-    this.setState({ tableData: data });
+  updateTableData = (id) => {
+    this.setState({
+      tableData: this.state.tableData.filter((item) => item.id != id),
+    });
   };
 
   render() {
@@ -31,7 +33,7 @@ class App extends React.Component {
         <ComponentA onAddClicked={this.submitAdd} />
         <ComponentB
           tableData={this.state.tableData}
-          onDeleteClicked={this.updateTableData}
+          onDeleteBtnClicked={this.updateTableData}
         />
       </div>
     );
