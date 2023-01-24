@@ -1,25 +1,35 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
 
 export default function Autocomplete() {
-  const addClicked = (e) => {};
-  let addVal = {};
+  const [users, setUsers] = useState(initData);
+  let newUser = null;
 
-  function changeinput(event, newInputValue, reason) {
-    console.log(newInputValue);
-    console.log(users);
+  useEffect(() => {
+    newUser = null;
+  }, [users]);
 
-    const filVal = users.filter((record) =>
-      record.label.toLocaleLowerCase().includes(newInputValue)
+  const addClicked = (e) => {
+    e.preventDefault();
+    if (!newUser) return;
+
+    console.log('add user', newUser);
+    setUsers([newUser, ...users]);
+  };
+
+  const changeUserInput = (event, newInputValue, reason) => {
+    const filterResult = users.filter((record) =>
+      record.label
+        .toLocaleLowerCase()
+        .includes(newInputValue.toLocaleLowerCase())
     );
 
-    console.log(filVal);
-
-    if (!filVal) {
-      addVal = { label: newInputValue, id: users.length + 1 };
+    if (!filterResult.length) {
+      newUser = { label: newInputValue, id: users.length + 1 };
     }
-  }
+  };
 
   return (
     <form className="autocomplete-form" style={formStyle}>
@@ -30,12 +40,18 @@ export default function Autocomplete() {
         freeSolo={true}
         sx={{ width: 300 }}
         onInputChange={(event, newInputValue, reason) => {
-          changeinput(event, newInputValue);
+          changeUserInput(event, newInputValue);
         }}
         renderInput={(params) => <TextField {...params} label="Users" />}
       />
       <div className="button-container">
-        <Button type="submit" value="ADD" onClick>
+        <Button
+          type="submit"
+          value="ADD"
+          onClick={(e) => {
+            addClicked(e);
+          }}
+        >
           ADD
         </Button>
       </div>
@@ -47,7 +63,7 @@ const formStyle = {
   display: 'flex',
 };
 
-let users = [
+let initData = [
   { label: 'Ashay Gupta', id: 1 },
   { label: 'Sumit Patrikar', id: 2 },
   { label: 'Pankaj Sing', id: 3 },
