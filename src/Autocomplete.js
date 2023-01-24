@@ -3,31 +3,48 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
 export default function Autocomplete() {
-  const addClicked = (e) => {
-    alert(JSON.parse(e));
-  };
-  const chnageinput = (params) => {
-console.log(params);
+  const addClicked = (e) => {};
+  let addVal = {};
+
+  function changeinput(event, newInputValue, reason) {
+    console.log(newInputValue);
+    console.log(users);
+
+    const filVal = users.filter((record) =>
+      record.label.toLocaleLowerCase().includes(newInputValue)
+    );
+
+    console.log(filVal);
+
+    if (!filVal) {
+      addVal = { label: newInputValue, id: users.length + 1 };
+    }
   }
 
   return (
-    <form className="autocomplete-form" style={formStyle} onSubmit={addClicked}>
+    <form className="autocomplete-form" style={formStyle}>
       <Autocomplete
         disablePortal
         id="autocomplete-users"
         options={users}
+        freeSolo={true}
         sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Users" onChange={chnageinput}/>}
+        onInputChange={(event, newInputValue, reason) => {
+          changeinput(event, newInputValue);
+        }}
+        renderInput={(params) => <TextField {...params} label="Users" />}
       />
       <div className="button-container">
-        <input type="submit" value="ADD" />
+        <Button type="submit" value="ADD" onClick>
+          ADD
+        </Button>
       </div>
     </form>
   );
 }
 
 const formStyle = {
-  display: "flex",
+  display: 'flex',
 };
 
 let users = [
@@ -36,6 +53,6 @@ let users = [
   { label: 'Pankaj Sing', id: 3 },
   { label: 'Jiten Kumar', id: 4 },
   { label: 'Jalaj Kishor', id: 5 },
-  { label: "Yejijipurapu DurgaRao", id: 6 },
-  { label: 'Deoskar K', id: 7 }
+  { label: 'Yejijipurapu DurgaRao', id: 6 },
+  { label: 'Deoskar K', id: 7 },
 ];
