@@ -3,6 +3,7 @@ import uuid from 'react-uuid';
 import './style.css';
 import ComponentA from './ComponentA';
 import ComponentB from './ComponentB';
+import Autocomplete from './Autocomplete';
 
 class App extends React.Component {
   state = {
@@ -30,11 +31,12 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <ComponentA onAddClicked={this.submitAdd} />
-        <ComponentB
+        {/* <ComponentA onAddClicked={this.submitAdd} /> */}
+        <Autocomplete />
+        {/* <ComponentB
           tableData={this.state.tableData}
           onDeleteBtnClicked={this.updateTableData}
-        />
+        /> */}
       </div>
     );
   }
